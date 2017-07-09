@@ -30,9 +30,8 @@ def self_info():
         print 'Status code other than 200 received!'
 
 
-'''
-Function declaration to get the ID of a user by username
-'''
+
+#Function declaration for getting ID by it's username
 
 
 def get_user_id(insta_username):
@@ -50,9 +49,9 @@ def get_user_id(insta_username):
         exit()
 
 
-'''
-Function declaration to get the info of a user by username
-'''
+
+#Function declaration for getting  information of user by it's username
+
 
 
 def get_user_info(insta_username):
@@ -76,9 +75,9 @@ def get_user_info(insta_username):
         print 'Status code other than 200 received!'
 
 
-'''
-Function declaration to get your recent post
-'''
+
+#Function declaration for getting the status of self recent post
+
 
 
 def get_own_post():
@@ -98,9 +97,9 @@ def get_own_post():
         print 'Status code other than 200 received!'
 
 
-'''
-Function declaration to get the recent post of a user by username
-'''
+
+#Function declaration for getting the recent post of  user by username
+
 
 
 def get_user_post(insta_username):
@@ -149,9 +148,9 @@ def get_like_list(username):
 
 
 
-'''
-Function declaration to get the ID of the recent post of a user by username
-'''
+
+#Function declaration for getting the ID of  recent post of  user by  username
+
 
 def get_post_id(insta_username):
     user_id = get_user_id(insta_username)
@@ -174,9 +173,9 @@ def get_post_id(insta_username):
 
 
 
-'''
-Function declaration to like the recent post of a user
-'''
+
+#Function declaration for liking the recent post of user
+
 
 
 def like_a_post(insta_username):
@@ -191,9 +190,9 @@ def like_a_post(insta_username):
         print 'Your like was unsuccessful. Try again!'
 
 
-'''
-Function declaration to make a comment on the recent post of the user
-'''
+
+#Function declaration for making comment on the recent post of user
+
 
 
 def post_a_comment(insta_username):
@@ -210,9 +209,9 @@ def post_a_comment(insta_username):
     else:
         print "Unable to add comment. Try again!"
 
-'''
-Function declaration to make delete negative comments from the recent post
-'''
+
+#Function declaration for deleting negative comments from recent post
+
 
 def delete_negative_comment(insta_username):
     media_id = get_post_id(insta_username)
@@ -222,7 +221,7 @@ def delete_negative_comment(insta_username):
 
     if comment_info['meta']['code'] == 200:
         if len(comment_info['data']):
-            #Here's a naive implementation of how to delete the negative comments :)
+
             for x in range(0, len(comment_info['data'])):
                 comment_id = comment_info['data'][x]['id']
                 comment_text = comment_info['data'][x]['text']

@@ -13,7 +13,7 @@ BASE_URL = 'https://api.instagram.com/v1/'
 
 
 
-def self_info():
+def own_info():
     request_url = (BASE_URL + 'users/self/?access_token=%s') % (APP_ACCESS_TOKEN)
     print 'GET request url : %s' % (request_url)
     user_info = requests.get(request_url).json()
@@ -34,7 +34,7 @@ def self_info():
 #Function declaration for getting ID by it's username
 
 
-def get_user_id(insta_username):
+def getting_user_id(insta_username):
     request_url = (BASE_URL + 'users/search?q=%s&access_token=%s') % (insta_username, APP_ACCESS_TOKEN)
     print 'GET request url : %s' % (request_url)
     user_info = requests.get(request_url).json()
@@ -54,8 +54,8 @@ def get_user_id(insta_username):
 
 
 
-def get_user_info(insta_username):
-    user_id = get_user_id(insta_username)
+def get_user_information(insta_username):
+    user_id = getting_user_id(insta_username)
     if user_id == None:
         print 'User does not exist!'
         exit()
@@ -80,7 +80,7 @@ def get_user_info(insta_username):
 
 
 
-def get_own_post():
+def self_post():
     request_url = (BASE_URL + 'users/self/media/recent/?access_token=%s') % (APP_ACCESS_TOKEN)
     print 'GET request url : %s' % (request_url)
     own_media = requests.get(request_url).json()
@@ -102,8 +102,8 @@ def get_own_post():
 
 
 
-def get_user_post(insta_username):
-    user_id = get_user_id(insta_username)
+def user_post(insta_username):
+    user_id = getting_user_id(insta_username)
     if user_id == None:
         print 'User does not exist!'
         exit()
@@ -122,8 +122,8 @@ def get_user_post(insta_username):
     else:
         print 'Status code other than 200 received!'
 
-def get_like_list(username):
-  media_id = get_post_id(username)
+def like_list(username):
+  media_id = get_media_id(username)
   if media_id == None:
     print "Post does not exist"
     exit()
@@ -152,8 +152,8 @@ def get_like_list(username):
 #Function declaration for getting the ID of  recent post of  user by  username
 
 
-def get_post_id(insta_username):
-    user_id = get_user_id(insta_username)
+def get_media_id(insta_username):
+    user_id = getting_user_id(insta_username)
     if user_id == None:
         print 'User does not exist!'
         exit()
@@ -178,8 +178,8 @@ def get_post_id(insta_username):
 
 
 
-def like_a_post(insta_username):
-    media_id = get_post_id(insta_username)
+def liking_post(insta_username):
+    media_id = get_media_id(insta_username)
     request_url = (BASE_URL + 'media/%s/likes') % (media_id)
     payload = {"access_token": APP_ACCESS_TOKEN}
     print 'POST request url : %s' % (request_url)
@@ -195,8 +195,8 @@ def like_a_post(insta_username):
 
 
 
-def post_a_comment(insta_username):
-    media_id = get_post_id(insta_username)
+def posting_comment(insta_username):
+    media_id = get_media_id(insta_username)
     comment_text = raw_input("Your comment: ")
     payload = {"access_token": APP_ACCESS_TOKEN, "text" : comment_text}
     request_url = (BASE_URL + 'media/%s/comments') % (media_id)
@@ -213,8 +213,8 @@ def post_a_comment(insta_username):
 #Function declaration for deleting negative comments from recent post
 
 
-def delete_negative_comment(insta_username):
-    media_id = get_post_id(insta_username)
+def deleting_negative_comment(insta_username):
+    media_id = get_media_id(insta_username)
     request_url = (BASE_URL + 'media/%s/comments/?access_token=%s') % (media_id, APP_ACCESS_TOKEN)
     print 'GET request url : %s' % (request_url)
     comment_info = requests.get(request_url).json()
@@ -255,40 +255,39 @@ def start_bot():
         print "d.Get the recent post of a user by username\n"
         print "e.Get a list of people who have liked the recent post of a user\n"
         print "f.Like the recent post of a user\n"
-        print "g.Get a list of comments on the recent post of a user\n"
-        print "h.Make a comment on the recent post of a user\n"
-        print "i.Delete negative comments from the recent post of a user\n"
-        print "j.Exit"
+        print "g.Make a comment on the recent post of a user\n"
+        print "h.Delete negative comments from the recent post of a user\n"
+        print "i.Exit"
 
         choice = raw_input("Enter you choice: ")
         if choice == "a":
-            self_info()
+            own_info()
         elif choice == "b":
             insta_username = raw_input("Enter the username of the user: ")
-            get_user_info(insta_username)
+            get_user_information(insta_username)
         elif choice == "c":
-            get_own_post()
+           self_post()
         elif choice == "d":
             insta_username = raw_input("Enter the username of the user: ")
-            get_user_post(insta_username)
+            user_post(insta_username)
         elif choice=="e":
            insta_username = raw_input("Enter the username of the user: ")
-           get_like_list(insta_username)
+           like_list(insta_username)
         elif choice=="f":
            insta_username = raw_input("Enter the username of the user: ")
-           like_a_post(insta_username)
+           liking_post(insta_username)
+
         elif choice=="g":
            insta_username = raw_input("Enter the username of the user: ")
-           get_comment_list(insta_username)
+           posting_comment(insta_username)
         elif choice=="h":
            insta_username = raw_input("Enter the username of the user: ")
-           post_a_comment(insta_username)
-        elif choice=="i":
-           insta_username = raw_input("Enter the username of the user: ")
-           delete_negative_comment(insta_username)
-        elif choice == "j":
+           deleting_negative_comment(insta_username)
+        elif choice == "i":
             exit()
         else:
             print "wrong choice"
+
+
 
 start_bot()
